@@ -326,11 +326,12 @@ class Kohana_OAuth_Request {
 	 *
 	 * [!!] This method implements [OAuth 1.0 Spec 5.2 (2,3)](http://oauth.net/core/1.0/#rfc.section.5.2).
 	 *
+	 * @param   boolean   include oauth parameters
 	 * @return  string
 	 */
-	public function as_query()
+	public function as_query($include_oauth = NULL)
 	{
-		if ($this->send_header)
+		if ($include_oauth !== TRUE AND $this->send_header)
 		{
 			// If we are sending a header, OAuth parameters should not be
 			// included in the query string.
@@ -363,7 +364,7 @@ class Kohana_OAuth_Request {
 	 */
 	public function as_url()
 	{
-		return $this->url.'?'.$this->as_query();
+		return $this->url.'?'.$this->as_query(TRUE);
 	}
 
 	/**
