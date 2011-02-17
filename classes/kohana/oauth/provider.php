@@ -138,9 +138,13 @@ abstract class Kohana_OAuth_Provider {
 
 		// Sign the request using only the consumer, no token is available yet
 		$request->sign($this->signature, $consumer);
+		
+		echo Debug::vars($request);
 
 		// Create a response from the request
 		$response = $request->execute();
+		
+		echo Debug::vars($response); die();
 
 		// Store this token somewhere useful
 		return OAuth_Token::factory('request', array(

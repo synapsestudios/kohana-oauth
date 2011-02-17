@@ -454,56 +454,41 @@ class Kohana_OAuth_Request {
 	/**
 	 * Execute the request and return a response.
 	 *
-	 * @param   array    additional cURL options
+	 * @param   array    additional headers to send
 	 * @return  string   request response body
 	 * @uses    OAuth_Request::check
 	 * @uses    Arr::get
-	 * @uses    Remote::get
+	 * @uses    Request::execute
 	 */
-	public function execute(array $options = NULL)
+	public function execute(array $headers = array())
 	{
 		// Check that all required fields are set
 		$this->check();
 
-		// Get the URL of the request
-		$url = $this->url;
-
-		if ( ! isset($options[CURLOPT_CONNECTTIMEOUT]))
-		{
-			// Use the request default timeout
-			$options[CURLOPT_CONNECTTIMEOUT] = $this->timeout;
-		}
-
-		if ($this->send_header)
-		{
-			// Get the the current headers
-			$headers = Arr::get($options, CURLOPT_HTTPHEADER, array());
-
-			// Add the Authorization header
-			$headers[] = 'Authorization: '.$this->as_header();
-
-			// Store the new headers
-			$options[CURLOPT_HTTPHEADER] = $headers;
-		}
-
-		if ($this->method === 'POST')
-		{
-			// Send the request as a POST
-			$options[CURLOPT_POST] = TRUE;
-
-			if ($post = $this->as_query(NULL, empty($this->upload)))
-			{
-				// Attach the post fields to the request
-				$options[CURLOPT_POSTFIELDS] = $post;
-			}
-		}
-		elseif ($query = $this->as_query())
+		if ($query = $this->as_query())
 		{
 			// Append the parameters to the query string
 			$url = "{$url}?{$query}";
 		}
+		else
+		{
+			$url = $this->url;
+		}
+		
+		
 
-		return Remote::get($url, $options);
+		$request = Request::factory($url)
+			->method($this->method)
+			->headers('Authorization', $this->as_header())
+			->headers($headers);
+		
+		echo Debug::vars("request headers:", $request->headers());
+
+		echo Debug::vars("entire request object:", $request);
+
+		// Create the Request
+		return $request
+			->execute();
 	}
 
 } // End OAuth_Request

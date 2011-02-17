@@ -24,9 +24,9 @@ class Kohana_OAuth_Request_Token extends OAuth_Request {
 		'oauth_version'          => TRUE,
 	);
 
-	public function execute(array $options = NULL)
+	public function execute(array $headers = array())
 	{
-		return OAuth_Response::factory(parent::execute($options));
+		return OAuth_Response::factory(parent::execute($headers));
 	}
 
 } // End OAuth_Request_Token
