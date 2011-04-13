@@ -11,7 +11,7 @@
  * @license    http://kohanaframework.org/license
  * @since      3.1.3
  */
-abstract class Controller_OAuth_Demo extends Controller_Demo {
+abstract class Controller_Demo_OAuth extends Controller_Demo {
 
 	/**
 	 * @var  object  OAuth_Provider
