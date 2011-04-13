@@ -2,5 +2,6 @@
 
 abstract class Kohana_OAuth2_Request_Credentials extends OAuth2_Request {
 
-	protected $_name = 'credentials';
+	protected $name = 'credentials';
+
 }

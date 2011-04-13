@@ -9,7 +9,7 @@ abstract class Kohana_OAuth2_Provider_Github extends OAuth2_Provider {
 		return 'https://github.com/login/oauth/authorize';
 	}
 
-	public function url_access_token(array $params = NULL)
+	public function url_access_token()
 	{
 		return 'https://github.com/login/oauth/access_token';
 	}

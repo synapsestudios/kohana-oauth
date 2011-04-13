@@ -2,10 +2,11 @@
 
 abstract class Kohana_OAuth2_Request_Token extends OAuth2_Request {
 
-	protected $_name = 'token';
+	protected $name = 'token';
 
 	public function execute(array $options = NULL)
 	{
 		return OAuth_Response::factory(parent::execute($options));
 	}
+
 }

@@ -2,9 +2,10 @@
 
 abstract class Kohana_OAuth2_Token_Access extends OAuth2_Token {
 
-	protected $_name = 'access';
+	protected $name = 'access';
 
-	protected $_required = array(
-		'token'
+	protected $required = array(
+		'token',
 	);
+
 }
