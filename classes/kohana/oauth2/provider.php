@@ -21,13 +21,13 @@ abstract class Kohana_OAuth2_Provider {
 		return $this->url_access_token();
 	}
 
-	public function request_token(OAuth_Consumer $consumer, array $params = NULL)
+	public function authorize_url(OAuth2_Client $client, array $params = NULL)
 	{
 		// Create a new GET request for a request token with the required parameters
 		$request = OAuth2_Request::factory('authorize', 'GET', $this->url_authorize(), array(
 			'response_type' => 'code',
-			'client_id'     => $consumer->id,
-			'redirect_uri'  => $consumer->callback,
+			'client_id'     => $client->id,
+			'redirect_uri'  => $client->callback,
 		));
 
 		if ($params)
@@ -36,17 +36,16 @@ abstract class Kohana_OAuth2_Provider {
 			$request->params($params);
 		}
 
-		// Execute request (will redirect to OAuth server)
-		$request->execute();
+		return $request->as_url();
 	}
 
-	public function access_token(OAuth_Consumer $consumer, $code, array $params = NULL)
+	public function access_token(OAuth2_Client $client, $code, array $params = NULL)
 	{
 		$request = OAuth2_Request::factory('token', 'POST', $this->url_access_token(), array(
 			'grant_type'    => 'authorization_code',
 			'code'          => $code,
-			'client_id'     => $consumer->id,
-			'client_secret' => $consumer->secret,
+			'client_id'     => $client->id,
+			'client_secret' => $client->secret,
 		));
 
 		if ($params)
