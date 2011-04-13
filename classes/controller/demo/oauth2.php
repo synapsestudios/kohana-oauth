@@ -4,27 +4,27 @@
  *
  * Depends on the [demo module](https://github.com/shadowhand/demo).
  *
- * @package    Kohana/OAuth
+ * @package    Kohana/OAuth2
  * @category   Demo
  * @author     Kohana Team
  * @copyright  (c) 2011 Kohana Team
  * @license    http://kohanaframework.org/license
  * @since      3.1.3
  */
-abstract class Controller_OAuth_Demo extends Controller_Demo {
+abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 
 	/**
-	 * @var  object  OAuth_Provider
+	 * @var  object  OAuth2_Provider
 	 */
 	protected $provider;
 
 	/**
-	 * @var  object  OAuth_Consumer
+	 * @var  object  OAuth2_Client
 	 */
-	protected $consumer;
+	protected $client;
 
 	/**
-	 * @var  object  OAuth_Token
+	 * @var  object  OAuth2_Token
 	 */
 	protected $token;
 
@@ -39,10 +39,10 @@ abstract class Controller_OAuth_Demo extends Controller_Demo {
 		$provider = strtolower($this->api);
 
 		// Load the provider
-		$this->provider = OAuth_Provider::factory($provider);
+		$this->provider = OAuth2_Provider::factory($provider);
 
-		// Load the consumer
-		$this->consumer = OAuth_Consumer::factory(Kohana::config("oauth.{$provider}"));
+		// Load the client
+		$this->client = OAuth2_Client::factory(Kohana::config("oauth.{$provider}"));
 
 		if ($token = $this->session->get($this->key('access')))
 		{
@@ -59,28 +59,13 @@ abstract class Controller_OAuth_Demo extends Controller_Demo {
 	public function demo_login()
 	{
 		// Attempt to complete signin
-		if ($verifier = Arr::get($_REQUEST, 'oauth_verifier'))
+		if ($code = Arr::get($_REQUEST, 'code'))
 		{
-			if ( ! $token = $this->session->get($this->key('request')) OR $token->token !== Arr::get($_REQUEST, 'oauth_token'))
-			{
-				// Token is invalid
-				$this->session->delete($this->key('request'));
-
-				// Restart the login process
-				$this->request->redirect($this->request->uri);
-			}
-
-			// Store the verifier in the token
-			$token->verifier($verifier);
-
-			// Exchange the request token for an access token
-			$token = $this->provider->access_token($this->consumer, $token);
+			// Exchange the authorization code for an access token
+			$token = $this->provider->access_token($this->client, $code);
 
 			// Store the access token
 			$this->session->set($this->key('access'), $token);
-
-			// Request token is no longer needed
-			$this->session->delete($this->key('request'));
 
 			// Refresh the page to prevent errors
 			$this->request->redirect($this->request->uri);
@@ -97,16 +82,10 @@ abstract class Controller_OAuth_Demo extends Controller_Demo {
 			$callback = $this->request->url(NULL, TRUE);
 
 			// Add the callback URL to the consumer
-			$this->consumer->callback($callback);
-
-			// Get a request token for the consumer
-			$token = $this->provider->request_token($this->consumer);
+			$this->client->callback($callback);
 
 			// Get the login URL from the provider
-			$url = $this->provider->authorize_url($token);
-
-			// Store the token
-			$this->session->set($this->key('request'), $token);
+			$url = $this->provider->authorize_url($this->client);
 
 			// Redirect to the twitter login page
 			$this->content = HTML::anchor($url, "Login to {$this->api}");
@@ -118,7 +97,7 @@ abstract class Controller_OAuth_Demo extends Controller_Demo {
 		if (Arr::get($_GET, 'confirm'))
 		{
 			// Delete the access token
-			$this->session->delete($this->key('request'), $this->key('access'));
+			$this->session->delete($this->key('access'));
 
 			// Redirect to the demo list
 			$this->request->redirect($this->request->uri(array('action' => FALSE, 'id' => FALSE)));

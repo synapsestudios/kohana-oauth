@@ -1,36 +1,27 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
-/**
- * OAuth Consumer
- *
- * @package    Kohana/OAuth
- * @category    Base
- * @author     Kohana Team
- * @copyright  (c) 2010 Kohana Team
- * @license    http://kohanaframework.org/license
- * @since      3.0.7
- */
-class Kohana_OAuth_Consumer {
+
+class Kohana_OAuth2_Client {
 
 	/**
 	 * Create a new consumer object.
 	 *
-	 *     $consumer = OAuth_Consumer::factory($options);
+	 *     $consumer = OAuth2_Client::factory($options);
 	 *
 	 * @param   array  consumer options, key and secret are required
 	 * @return  OAuth_Consumer
 	 */
 	public static function factory(array $options = NULL)
 	{
-		return new OAuth_Consumer($options);
+		return new OAuth2_Client($options);
 	}
 
 	/**
-	 * @var  string  consumer key
+	 * @var  string  client id
 	 */
-	protected $key;
+	protected $id;
 
 	/**
-	 * @var  string  consumer secret
+	 * @var  string  client secret
 	 */
 	protected $secret;
 
@@ -47,10 +38,10 @@ class Kohana_OAuth_Consumer {
 	 */
 	public function __construct(array $options = NULL)
 	{
-		if ( ! isset($options['key']))
+		if ( ! isset($options['id']))
 		{
 			throw new Kohana_OAuth_Exception('Required option not passed: :option',
-				array(':option' => 'key'));
+				array(':option' => 'id'));
 		}
 
 		if ( ! isset($options['secret']))
@@ -59,7 +50,7 @@ class Kohana_OAuth_Consumer {
 				array(':option' => 'secret'));
 		}
 
-		$this->key = $options['key'];
+		$this->id = $options['id'];
 
 		$this->secret = $options['secret'];
 
@@ -72,8 +63,8 @@ class Kohana_OAuth_Consumer {
 	/**
 	 * Return the value of any protected class variable.
 	 *
-	 *     // Get the consumer key
-	 *     $key = $consumer->key;
+	 *     // Get the client key
+	 *     $key = $client->key;
 	 *
 	 * @param   string  variable name
 	 * @return  mixed
@@ -84,7 +75,7 @@ class Kohana_OAuth_Consumer {
 	}
 
 	/**
-	 * Change the consumer callback.
+	 * Change the client callback.
 	 *
 	 * @param   string  new consumer callback
 	 * @return  $this
@@ -96,4 +87,4 @@ class Kohana_OAuth_Consumer {
 		return $this;
 	}
 
-} // End OAuth_Consumer
+}
