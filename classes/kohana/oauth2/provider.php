@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-abstract class Kohana_OAuth_v2_Provider {
+abstract class Kohana_OAuth2_Provider {
 
 	public static function factory($name, array $options = NULL)
 	{
-		$class = 'OAuth_v2_Provider_'.$name;
+		$class = 'OAuth2_Provider_'.$name;
 
 		return new $class($options);
 	}
@@ -30,7 +30,7 @@ abstract class Kohana_OAuth_v2_Provider {
 	public function request_token(OAuth_Consumer $consumer, array $params = NULL)
 	{
 		// Create a new GET request for a request token with the required parameters
-		$request = OAuth_v2_Request::factory('authorize', 'GET', $this->url_authorize(), array(
+		$request = OAuth2_Request::factory('authorize', 'GET', $this->url_authorize(), array(
 			'response_type' => 'code',
 			'client_id'     => $consumer->key(),
 			'redirect_uri'  => $consumer->callback(),
@@ -59,17 +59,17 @@ abstract class Kohana_OAuth_v2_Provider {
 			$params['client_secret'] = $secret;
 		}
 
-		$request = OAuth_v2_Request::factory('token', 'POST', $this->url_access_token(), $params);
+		$request = OAuth2_Request::factory('token', 'POST', $this->url_access_token(), $params);
 
 		$response = $request->execute();
-		return OAuth_v2_Token::factory('access', array(
+		return OAuth2_Token::factory('access', array(
 			'token'    => $response->param('access_token')
 		));
 	}
 
-	public function verify_credentials(OAuth_v2_Token_Access $token, OAuth_Consumer $consumer)
+	public function verify_credentials(OAuth2_Token_Access $token, OAuth_Consumer $consumer)
 	{
-		$request = OAuth_v2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
+		$request = OAuth2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
 			'oauth_consumer_key' => $consumer->key(),
 			'oauth_token'        => $token->token(),
 		));

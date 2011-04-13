@@ -9,7 +9,7 @@
  * @license    http://kohanaframework.org/license
  * @since      3.0.7
  */
-abstract class Kohana_OAuth_v2 extends OAuth {
+abstract class Kohana_OAuth2 extends OAuth {
 
 	/**
 	 * Get request object
@@ -18,31 +18,31 @@ abstract class Kohana_OAuth_v2 extends OAuth {
 	 * @param   string   Request method (POST, GET)
 	 * @param   string   URL
 	 * @param   array    Request params
-	 * @return  OAuth_v2_Request
+	 * @return  OAuth2_Request
 	 */
 	public function request($type, $method, $url, array $options = NULL)
 	{
-		return OAuth_v2_Request::factory($type, $method, $url, $options);
+		return OAuth2_Request::factory($type, $method, $url, $options);
 	}
 
 	/**
 	 * @param  $name  Provider name
 	 * @param  array  Provider options
-	 * @return OAuth_v2_Provider
+	 * @return OAuth2_Provider
 	 */
 	public function provider($name, array $options = NULL)
 	{
-		return OAuth_v2_Provider::factory($name, $options);
+		return OAuth2_Provider::factory($name, $options);
 	}
 
 	/**
 	 * @param  $name   Token type
 	 * @param  array   Token options
-	 * @return OAuth_v2_Token
+	 * @return OAuth2_Token
 	 */
 	public function token($name, array $options = NULL)
 	{
-		return OAuth_v2_Token::factory($name, $options);
+		return OAuth2_Token::factory($name, $options);
 	}
 
 }

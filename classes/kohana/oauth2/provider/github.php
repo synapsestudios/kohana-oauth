@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-abstract class Kohana_OAuth_v2_Provider_Github extends OAuth_v2_Provider {
+abstract class Kohana_OAuth2_Provider_Github extends OAuth2_Provider {
 
 	public $name = 'github';
 
@@ -19,9 +19,9 @@ abstract class Kohana_OAuth_v2_Provider_Github extends OAuth_v2_Provider {
 		return 'https://github.com/api/v2/json/user/show';
 	}
 
-	public function verify_credentials(OAuth_v2_Token_Access $token, OAuth_Consumer $consumer)
+	public function verify_credentials(OAuth2_Token_Access $token, OAuth_Consumer $consumer)
 	{
-		$request = OAuth_v2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
+		$request = OAuth2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
 			'access_token'        => $token->token(),
 		));
 

@@ -9,7 +9,7 @@
  * @license    http://kohanaframework.org/license
  * @since      3.0.7
  */
-abstract class Kohana_OAuth_v2_Request extends OAuth_Request {
+abstract class Kohana_OAuth2_Request extends OAuth_Request {
 
 	/**
 	 * @static
@@ -17,11 +17,11 @@ abstract class Kohana_OAuth_v2_Request extends OAuth_Request {
 	 * @param  string $method
 	 * @param  string $url
 	 * @param  array  $params
-	 * @return OAuth_v2_Request
+	 * @return OAuth2_Request
 	 */
 	public static function factory($type, $method, $url = NULL, array $params = NULL)
 	{
-		$class = 'OAuth_v2_Request_'.$type;
+		$class = 'OAuth2_Request_'.$type;
 		return new $class($method, $url, $params);
 	}
 
