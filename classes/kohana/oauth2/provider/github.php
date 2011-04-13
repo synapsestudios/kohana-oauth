@@ -14,17 +14,4 @@ abstract class Kohana_OAuth2_Provider_Github extends OAuth2_Provider {
 		return 'https://github.com/login/oauth/access_token';
 	}
 
-	public function url_verify_credentials(array $params = NULL)
-	{
-		return 'https://github.com/api/v2/json/user/show';
-	}
-
-	public function verify_credentials(OAuth2_Token_Access $token, OAuth_Consumer $consumer)
-	{
-		$request = OAuth2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
-			'access_token'        => $token->token(),
-		));
-
-		return json_decode($request->execute());
-	}
 }

@@ -10,14 +10,8 @@ abstract class Kohana_OAuth2_Provider {
 	}
 
 	abstract public function url_authorize();
+
 	abstract public function url_access_token(array $params = NULL);
-	/**
-	 * Returns the account info url
-	 *
-	 * @param   array $params
-	 * @return  string
-	 */
-	abstract public function url_verify_credentials(array $params = NULL);
 
 	public $name;
 
@@ -65,16 +59,6 @@ abstract class Kohana_OAuth2_Provider {
 		return OAuth2_Token::factory('access', array(
 			'token'    => $response->param('access_token')
 		));
-	}
-
-	public function verify_credentials(OAuth2_Token_Access $token, OAuth_Consumer $consumer)
-	{
-		$request = OAuth2_Request::factory('credentials', 'GET', $this->url_verify_credentials(), array(
-			'oauth_consumer_key' => $consumer->key(),
-			'oauth_token'        => $token->token(),
-		));
-
-		return $request->execute();
 	}
 
 }
