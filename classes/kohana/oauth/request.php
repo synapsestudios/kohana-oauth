@@ -503,7 +503,7 @@ class Kohana_OAuth_Request {
 			$url = "{$url}?{$query}";
 		}
 
-		return Remote::get($url, $options);
+		return OAuth::remote($url, $options);
 	}
 
 } // End OAuth_Request
