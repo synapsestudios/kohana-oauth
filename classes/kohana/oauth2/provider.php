@@ -48,6 +48,11 @@ abstract class Kohana_OAuth2_Provider {
 			'client_secret' => $client->secret,
 		));
 
+		if ($client->callback)
+		{
+			$request->param('redirect_uri', $client->callback);
+		}
+
 		if ($params)
 		{
 			// Load user parameters
