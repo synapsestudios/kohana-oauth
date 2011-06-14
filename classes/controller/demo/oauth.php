@@ -67,7 +67,7 @@ abstract class Controller_Demo_OAuth extends Controller_Demo {
 				$this->session->delete($this->key('request'));
 
 				// Restart the login process
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			// Store the verifier in the token
@@ -124,7 +124,7 @@ abstract class Controller_Demo_OAuth extends Controller_Demo {
 			$this->request->redirect($this->request->uri(array('action' => FALSE, 'id' => FALSE)));
 		}
 
-		$this->content = HTML::anchor("{$this->request->uri}?confirm=yes", "Logout of {$this->api}");
+		$this->content = HTML::anchor("{$this->request->uri()}?confirm=yes", "Logout of {$this->api}");
 	}
 
 } // End Demo
