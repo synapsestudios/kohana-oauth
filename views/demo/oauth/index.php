@@ -1,4 +1,4 @@
-<h2>OAuth Demo</h3>
+<h2>OAuth Demo</h2>
 
 <p>This demo makes use of the <a href="https://github.com/kohana/oauth">OAuth Module</a> for <a href="http://kohanaframework.org/">Kohana.</a>
 
