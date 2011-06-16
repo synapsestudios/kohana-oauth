@@ -2,7 +2,7 @@
 /**
  * OAuth Linkedin Provider
  *
- * Documents for implementing Twitter OAuth can be found at
+ * Documents for implementing Linkedin OAuth can be found at
  * <http://developer.linkedin.com/docs/DOC-1251>.
  *
  * [!!] This class does not implement the Linkedin API. It is only an
