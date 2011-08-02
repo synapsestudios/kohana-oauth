@@ -334,7 +334,7 @@ class Kohana_OAuth_Request {
 
 		foreach ($this->params as $name => $value)
 		{
-			if (strpos($name, 'oauth_') === 0)
+			if (strpos($name, 'oauth_') === 0 || ($name == "realm" && !empty($value)))
 			{
 				// OAuth Spec 5.4.1
 				// "Parameter names and values are encoded per Parameter Encoding [RFC 3986]."

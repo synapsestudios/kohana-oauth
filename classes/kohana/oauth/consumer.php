@@ -40,6 +40,11 @@ class Kohana_OAuth_Consumer {
 	protected $callback;
 
 	/**
+	* @var  string  optional realm for the OAuth request
+	*/
+	protected $realm;
+
+	/**
 	 * Sets the consumer key and secret.
 	 *
 	 * @param   array  consumer options, key and secret are required
@@ -66,6 +71,11 @@ class Kohana_OAuth_Consumer {
 		if (isset($options['callback']))
 		{
 			$this->callback = $options['callback'];
+		}
+
+		if (isset($options['realm']))
+		{
+			$this->realm = $options['realm'];
 		}
 	}
 
