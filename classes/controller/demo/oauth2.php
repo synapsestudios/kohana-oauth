@@ -41,8 +41,11 @@ abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 		// Load the provider
 		$this->provider = OAuth2_Provider::factory($provider);
 
-		// Load the client
-		$this->client = OAuth2_Client::factory(Kohana::$config->load("oauth.{$provider}"));
+		// Load provider configuration
+		$config = Kohana::$config->load('oauth')->$provider;
+
+		// Load the client for this provider
+		$this->client = OAuth2_Client::factory($config);
 
 		if ($token = $this->session->get($this->key('access')))
 		{
@@ -68,13 +71,13 @@ abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 			$this->session->set($this->key('access'), $token);
 
 			// Refresh the page to prevent errors
-			$this->request->redirect($this->request->uri);
+			$this->request->redirect($this->request->uri());
 		}
 
 		if ($this->token)
 		{
 			// Login succesful
-			$this->content = Kohana::debug('Access token granted:', $this->token);
+			$this->content = Debug::vars('Access token granted:', $this->token);
 		}
 		else
 		{
@@ -103,7 +106,7 @@ abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 			$this->request->redirect($this->request->uri(array('action' => FALSE, 'id' => FALSE)));
 		}
 
-		$this->content = HTML::anchor("{$this->request->uri}?confirm=yes", "Logout of {$this->api}");
+		$this->content = HTML::anchor($this->request->uri().'?confirm=yes', "Logout of {$this->api}");
 	}
 
 } // End Demo

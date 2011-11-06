@@ -41,8 +41,11 @@ abstract class Controller_Demo_OAuth extends Controller_Demo {
 		// Load the provider
 		$this->provider = OAuth_Provider::factory($provider);
 
-		// Load the consumer
-		$this->consumer = OAuth_Consumer::factory(Kohana::$config->load("oauth.{$provider}"));
+		// Load provider configuration
+		$config = Kohana::$config->load('oauth')->$provider;
+
+		// Load the consumer for this provider
+		$this->consumer = OAuth_Consumer::factory($config);
 
 		if ($token = $this->session->get($this->key('access')))
 		{
@@ -83,13 +86,13 @@ abstract class Controller_Demo_OAuth extends Controller_Demo {
 			$this->session->delete($this->key('request'));
 
 			// Refresh the page to prevent errors
-			$this->request->redirect($this->request->uri);
+			$this->request->redirect($this->request->uri());
 		}
 
 		if ($this->token)
 		{
 			// Login succesful
-			$this->content = Kohana::debug('Access token granted:', $this->token);
+			$this->content = Debug::vars('Access token granted:', $this->token);
 		}
 		else
 		{
