@@ -9,6 +9,20 @@ abstract class Kohana_OAuth2_Provider {
 		return new $class($options);
 	}
 
+	/**
+	 * Return the value of any protected class variable.
+	 *
+	 *     // Get the provider signature
+	 *     $signature = $provider->signature;
+	 *
+	 * @param   string  variable name
+	 * @return  mixed
+	 */
+	public function __get($key)
+	{
+		return $this->$key;
+	}
+
 	abstract public function url_authorize();
 
 	abstract public function url_access_token();
