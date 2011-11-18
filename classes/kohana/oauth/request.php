@@ -55,6 +55,11 @@ class Kohana_OAuth_Request {
 	protected $url;
 
 	/**
+	 * @var  string  request body
+	 */
+	protected $body;
+
+	/**
 	 * @var   array   request parameters
 	 */
 	protected $params = array();
@@ -259,6 +264,13 @@ class Kohana_OAuth_Request {
 		{
 			$this->param($name, $value, $duplicate);
 		}
+
+		return $this;
+	}
+
+	public function body($body)
+	{
+		$this->body = $body;
 
 		return $this;
 	}
@@ -497,11 +509,12 @@ class Kohana_OAuth_Request {
 		// Set the request method for this request
 		$options[CURLOPT_CUSTOMREQUEST] = $this->method;
 
-		if ($this->method === 'POST')
+		if ($this->body)
 		{
-			// Send the request as a POST
-			$options[CURLOPT_POST] = TRUE;
-
+			$options[CURLOPT_POSTFIELDS] = $this->body;
+		}
+		elseif ($this->method === 'POST')
+		{
 			if ($post = $this->as_query(NULL, empty($this->upload)))
 			{
 				// Attach the post fields to the request
