@@ -82,7 +82,7 @@ abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 		else
 		{
 			// We will need a callback URL for the user to return to
-			$callback = $this->request->url(NULL, TRUE);
+			$callback = $this->request->url(TRUE);
 
 			// Add the callback URL to the consumer
 			$this->client->callback($callback);
