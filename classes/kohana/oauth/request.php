@@ -522,6 +522,11 @@ class Kohana_OAuth_Request {
 			}
 		}
 
+		if ($this->body)
+		{
+			$options[CURLOPT_HTTPHEADER][] = 'Content-Length: '.strlen($this->body);
+		}
+
 		return OAuth::remote($url, $options);
 	}
 
