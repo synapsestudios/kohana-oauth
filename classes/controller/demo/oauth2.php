@@ -14,6 +14,11 @@
 abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 
 	/**
+	 * @var  string  api service name
+	 */
+	protected $api;
+
+	/**
 	 * @var  object  OAuth2_Provider
 	 */
 	protected $provider;
