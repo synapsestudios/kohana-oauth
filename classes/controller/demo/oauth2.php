@@ -69,6 +69,12 @@ abstract class Controller_Demo_OAuth2 extends Controller_Demo {
 		// Attempt to complete signin
 		if ($code = Arr::get($_REQUEST, 'code'))
 		{
+			// We will need a callback URL for the user to return to
+			$callback = $this->request->url(TRUE);
+
+			// Add the callback URL to the consumer
+			$this->client->callback($callback);
+
 			// Exchange the authorization code for an access token
 			$token = $this->provider->access_token($this->client, $code);
 
