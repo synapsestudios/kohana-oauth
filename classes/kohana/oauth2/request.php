@@ -38,7 +38,7 @@ abstract class Kohana_OAuth2_Request extends OAuth_Request {
 	 *
 	 *     $header = $request->as_header();
 	 *
-	 * [!!] This method implements [OAuth 2.0 Spec 6.1](http://tools.ietf.org/html/draft-ietf-oauth-v2-07#section-6.1).
+	 * [!!] This method implements [OAuth 2.0 v22 Spec 7.1](http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1).
 	 *
 	 * @return  string
 	 */
@@ -52,7 +52,7 @@ abstract class Kohana_OAuth2_Request extends OAuth_Request {
 			}
 			else
 			{
-				$header = 'token';
+				$header = 'Bearer';
 			}
 
 			$access = $header.' '.$access;
