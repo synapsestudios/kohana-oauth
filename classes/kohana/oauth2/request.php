@@ -44,9 +44,21 @@ abstract class Kohana_OAuth2_Request extends OAuth_Request {
 	 */
 	public function as_header()
 	{
-		$access = Arr::get($this->params, 'access_token');
+		if ($access = Arr::get($this->params, 'access_token'))
+		{
+			if (is_string($this->send_header))
+			{
+				$header = $this->send_header;
+			}
+			else
+			{
+				$header = 'token';
+			}
 
-		return $access ? 'token '.$access : NULL;
+			$access = $header.' '.$access;
+		}
+
+		return $access ? $access : NULL;
 	}
 
 }
