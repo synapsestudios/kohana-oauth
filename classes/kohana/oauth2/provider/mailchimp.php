@@ -33,7 +33,17 @@ abstract class Kohana_OAuth2_Provider_Mailchimp extends OAuth2_Provider {
 			$request->params($params);
 		}
 
-		return $this->execute($request);
+		return json_decode($this->execute($request));
+	}
+
+	public function execute(OAuth2_Request $request, array $options = NULL)
+	{
+		$request->send_header = 'OAuth';
+
+		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
+		$options[CURLOPT_HTTPHEADER][] = 'Accept: application/json';
+
+		return parent::execute($request, $options);
 	}
 
 }
